@@ -1,6 +1,9 @@
 import * as grpc from "@grpc/grpc-js";
 import * as protoLoader from "@grpc/proto-loader";
 import { GPSData, SaveDataResponse } from "../protos/gps_pb";
+import dotenv = require("dotenv");
+
+dotenv.config();
 
 const PROTO_PATH = __dirname + "/../protos/gps.proto";
 
@@ -16,7 +19,7 @@ const gpsProto = grpc.loadPackageDefinition(packageDefinition)
   .gps as unknown as { GPS: any };
 
 const client = new gpsProto.GPS(
-  "localhost:50051",
+  process.env.GRPC_SERVER_ADDRESS,
   grpc.credentials.createInsecure()
 );
 
