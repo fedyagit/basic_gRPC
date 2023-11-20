@@ -5,6 +5,9 @@ import {
   saveData,
   closeDbConnection,
 } from "./services/gpsService";
+import dotenv = require("dotenv");
+
+dotenv.config();
 
 const PROTO_PATH = __dirname + "/protos/gps.proto";
 
@@ -26,13 +29,13 @@ async function main() {
     const server = new grpc.Server();
     server.addService(gpsProto.GPS.service, { saveData: saveData });
     server.bindAsync(
-      "0.0.0.0:50051",
+      process.env.GRPC_SERVER_ADDRESS ?? "",
       grpc.ServerCredentials.createInsecure(),
       () => {
         server.start();
       }
     );
-    console.log("Server running on http://0.0.0.0:50051");
+    console.log(`Server running on ${process.env.GRPC_SERVER_ADDRESS}`);
   } catch (error) {
     console.error("Failed to connect to MongoDB", error);
   }

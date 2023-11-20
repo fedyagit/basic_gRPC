@@ -4,8 +4,7 @@ import { SaveDataResponse } from "../protos/gps_pb";
 let client;
 
 export async function connectToDb() {
-  const uri = "mongodb://localhost:27017";
-  client = new MongoClient(uri);
+  client = new MongoClient(process.env.MONGO_CONNECTION_STRING ?? "");
 
   await client.connect();
   console.log("Connected successfully to MongoDB");
