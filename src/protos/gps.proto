@@ -1,0 +1,16 @@
+syntax = "proto3";
+
+package gps;
+
+service GPS {
+    rpc SaveData (GPSData) returns (SaveDataResponse) {}
+}
+
+message GPSData {
+    double latitude = 1;
+    double longitude = 2;
+}
+
+message SaveDataResponse {
+    string message = 1;
+}
