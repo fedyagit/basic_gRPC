@@ -1,12 +1,12 @@
 // GENERATED CODE -- DO NOT EDIT!
 
-"use strict";
-var grpc = require("grpc");
-var gps_pb = require("./gps_pb.js");
+'use strict';
+var grpc = require('grpc');
+var gps_pb = require('./gps_pb.js');
 
 function serialize_gps_GPSData(arg) {
   if (!(arg instanceof gps_pb.GPSData)) {
-    throw new Error("Expected argument of type gps.GPSData");
+    throw new Error('Expected argument of type gps.GPSData');
   }
   return Buffer.from(arg.serializeBinary());
 }
@@ -15,9 +15,20 @@ function deserialize_gps_GPSData(buffer_arg) {
   return gps_pb.GPSData.deserializeBinary(new Uint8Array(buffer_arg));
 }
 
+function serialize_gps_GPSDataList(arg) {
+  if (!(arg instanceof gps_pb.GPSDataList)) {
+    throw new Error('Expected argument of type gps.GPSDataList');
+  }
+  return Buffer.from(arg.serializeBinary());
+}
+
+function deserialize_gps_GPSDataList(buffer_arg) {
+  return gps_pb.GPSDataList.deserializeBinary(new Uint8Array(buffer_arg));
+}
+
 function serialize_gps_SaveDataResponse(arg) {
   if (!(arg instanceof gps_pb.SaveDataResponse)) {
-    throw new Error("Expected argument of type gps.SaveDataResponse");
+    throw new Error('Expected argument of type gps.SaveDataResponse');
   }
   return Buffer.from(arg.serializeBinary());
 }
@@ -26,9 +37,10 @@ function deserialize_gps_SaveDataResponse(buffer_arg) {
   return gps_pb.SaveDataResponse.deserializeBinary(new Uint8Array(buffer_arg));
 }
 
-var GPSService = (exports.GPSService = {
+
+var GPSService = exports.GPSService = {
   saveData: {
-    path: "/gps.GPS/SaveData",
+    path: '/gps.GPS/SaveData',
     requestStream: false,
     responseStream: false,
     requestType: gps_pb.GPSData,
@@ -38,6 +50,17 @@ var GPSService = (exports.GPSService = {
     responseSerialize: serialize_gps_SaveDataResponse,
     responseDeserialize: deserialize_gps_SaveDataResponse,
   },
-});
+  saveBulkData: {
+    path: '/gps.GPS/SaveBulkData',
+    requestStream: false,
+    responseStream: false,
+    requestType: gps_pb.GPSDataList,
+    responseType: gps_pb.SaveDataResponse,
+    requestSerialize: serialize_gps_GPSDataList,
+    requestDeserialize: deserialize_gps_GPSDataList,
+    responseSerialize: serialize_gps_SaveDataResponse,
+    responseDeserialize: deserialize_gps_SaveDataResponse,
+  },
+};
 
 exports.GPSClient = grpc.makeGenericClientConstructor(GPSService);

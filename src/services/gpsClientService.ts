@@ -1,6 +1,6 @@
 import * as grpc from "@grpc/grpc-js";
 import * as protoLoader from "@grpc/proto-loader";
-import { GPSData, SaveDataResponse } from "../protos/gps_pb";
+import { GPSData, GPSDataList, SaveDataResponse } from "../protos/gps_pb";
 import dotenv = require("dotenv");
 
 dotenv.config();
@@ -28,11 +28,34 @@ export function saveData(
   longitude: number
 ): Promise<SaveDataResponse> {
   return new Promise((resolve, reject) => {
-    let gpsData = new GPSData();
+    const gpsData = new GPSData();
     gpsData.setLatitude(latitude);
     gpsData.setLongitude(longitude);
 
     client.saveData(gpsData.toObject(), (error, response) => {
+      if (error) {
+        reject(error);
+      } else {
+        resolve(response);
+      }
+    });
+  });
+}
+
+export function saveBulkData(
+  gpsDataArray: { latitude: number; longitude: number }[]
+): Promise<SaveDataResponse> {
+  return new Promise((resolve, reject) => {
+    const gpsDataList = new GPSDataList();
+
+    gpsDataArray.forEach((data) => {
+      const gpsData = new GPSData();
+      gpsData.setLatitude(data.latitude);
+      gpsData.setLongitude(data.longitude);
+      gpsDataList.addData(gpsData);
+    });
+
+    client.saveBulkData(gpsDataList, (error, response) => {
       if (error) {
         reject(error);
       } else {
