@@ -4,11 +4,16 @@ package gps;
 
 service GPS {
     rpc SaveData (GPSData) returns (SaveDataResponse) {}
+    rpc SaveBulkData (GPSDataList) returns (SaveDataResponse) {}
 }
 
 message GPSData {
     double latitude = 1;
     double longitude = 2;
+}
+
+message GPSDataList {
+    repeated GPSData data = 1;
 }
 
 message SaveDataResponse {

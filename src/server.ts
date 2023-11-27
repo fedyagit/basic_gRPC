@@ -4,6 +4,7 @@ import {
   connectToDb,
   saveData,
   closeDbConnection,
+  saveBulkData,
 } from "./services/gpsService";
 import dotenv = require("dotenv");
 
@@ -27,7 +28,11 @@ async function main() {
     await connectToDb();
 
     const server = new grpc.Server();
-    server.addService(gpsProto.GPS.service, { saveData: saveData });
+    server.addService(gpsProto.GPS.service, {
+      saveData: saveData,
+      saveBulkData: saveBulkData,
+    });
+
     server.bindAsync(
       process.env.GRPC_SERVER_ADDRESS ?? "",
       grpc.ServerCredentials.createInsecure(),

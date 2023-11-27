@@ -1,6 +1,6 @@
 import express = require("express");
 import * as bodyParser from "body-parser";
-import { postGpsData } from "./controllers/gpsController";
+import { postBulkGpsData, postGpsData } from "./controllers/gpsController";
 import dotenv = require("dotenv");
 
 dotenv.config();
@@ -23,6 +23,7 @@ app.use((req, res, next) => {
 });
 
 app.post("/gps", postGpsData);
+app.post("/gps/bulk", postBulkGpsData);
 
 app.listen(3000, () => {
   console.log("REST API is listening on port 3000");
