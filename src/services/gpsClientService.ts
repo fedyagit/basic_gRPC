@@ -16,7 +16,7 @@ const packageDefinition = protoLoader.loadSync(PROTO_PATH, {
 });
 
 const gpsProto = grpc.loadPackageDefinition(packageDefinition)
-  .gps as unknown as { GPS: any };
+  .gps as unknown as { GPS };
 
 const client = new gpsProto.GPS(
   process.env.GRPC_SERVER_ADDRESS,

@@ -21,7 +21,7 @@ const packageDefinition = protoLoader.loadSync(PROTO_PATH, {
 });
 
 const gpsProto = grpc.loadPackageDefinition(packageDefinition)
-  .gps as unknown as { GPS: any };
+  .gps as unknown as { GPS };
 
 async function main() {
   try {
