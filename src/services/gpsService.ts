@@ -1,5 +1,4 @@
-import { MongoClient, Db, Collection } from "mongodb";
-import { Pool } from "pg";
+import { MongoClient, Db } from "mongodb";
 import { SaveDataResponse } from "../protos/gps_pb";
 import dotenv = require("dotenv");
 
@@ -8,8 +7,8 @@ dotenv.config();
 interface IGpsRepository {
   connect(): Promise<void>;
   closeConnection(): Promise<void>;
-  saveData(data: any): Promise<any>;
-  saveBulkData(data: any): Promise<any>;
+  saveData(data): Promise<any>;
+  saveBulkData(data): Promise<any>;
 }
 
 class MongoGpsRepository implements IGpsRepository {
@@ -35,13 +34,13 @@ class MongoGpsRepository implements IGpsRepository {
     await this.client.close();
   }
 
-  async saveData(data: any) {
+  async saveData(data) {
     const collection = this.db.collection("gpsdatas");
     const result = await collection.insertOne(data);
     return result;
   }
 
-  async saveBulkData(data: any) {
+  async saveBulkData(data) {
     const collection = this.db.collection("gpsdatas");
     const result = await collection.insertMany(data);
     return result;
@@ -103,7 +102,7 @@ export async function saveData(
 
   try {
     const result = await gpsRepository.saveData(gpsData);
-    let response = new SaveDataResponse();
+    const response = new SaveDataResponse();
     response.message = "Saved a new GPS data with id: " + result.insertedId;
     callback(null, response);
   } catch (error) {
@@ -122,7 +121,7 @@ export async function saveBulkData(
 
   try {
     const result = await gpsRepository.saveBulkData(gpsDataList);
-    let response = new SaveDataResponse();
+    const response = new SaveDataResponse();
     response.message = "Saved " + result.insertedCount + " new GPS data";
     callback(null, response);
   } catch (error) {

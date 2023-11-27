@@ -9,7 +9,7 @@ export async function postGpsData(req: Request, res: Response) {
     );
 
     res.json({ message: response.message });
-  } catch (error: any) {
+  } catch (error) {
     res.status(500).json({ error: error.message });
   }
 }
@@ -21,11 +21,10 @@ export async function postBulkGpsData(req: Request, res: Response) {
       longitude: Number(data.longitude),
     }));
 
-    
     const response = await saveBulkData(gpsDataList);
 
     res.json({ message: response.message });
-  } catch (error: any) {
+  } catch (error) {
     res.status(500).json({ error: error.message });
   }
 }
